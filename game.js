@@ -1,4 +1,4 @@
-import { config, images } from "./config.js";
+import { config, images, updateImages } from "./config.js";
 import { gameCandidateEl, gameMapEl } from "./index.js";
 
 /**
@@ -112,7 +112,8 @@ export let cards = [];
  */
 export let currentMap = [];
 
-export function createCards() {
+export function createCards () {
+    updateImages()
     // 先重置cards,candidates
     if (cards.length) {
         cards.forEach((e) => destroyCard(e, true));

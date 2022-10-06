@@ -20,10 +20,10 @@ export const _config = {
     },
 };
 
-function rows(t, b, s, e) {
+function rectangleLayer(top, bottom, left, right) {
     let arr = [];
-    for (var y = t; y < b; y++) {
-        for (var x = s; x < e; x++) {
+    for (var y = top; y < bottom; y++) {
+        for (var x = left; x < right; x++) {
             arr.push({ x, y });
         }
     }
@@ -34,23 +34,20 @@ function rows(t, b, s, e) {
  * @type {MapLayer}
  */
 export const map = [
+    rectangleLayer(0.5, 8.5, 0.5, 6.5),
+    rectangleLayer(0.5, 8.5, 0.5, 6.5),
+    rectangleLayer(1, 8, 1, 6),
+    rectangleLayer(1, 8, 1, 6),
+    rectangleLayer(0.5, 8.5, 0.5, 6.5),
+    rectangleLayer(1, 8, 1, 6),
+    rectangleLayer(0.5, 8.5, 0.5, 6.5),
+    rectangleLayer(1, 8, 1, 6),
+    rectangleLayer(0.5, 8.5, 0.5, 6.5),
+    rectangleLayer(1, 8, 1, 6),
+    rectangleLayer(0.5, 8.5, 0.5, 6.5),
+    rectangleLayer(1, 8, 1, 6),
 
-    // rows(0.5, 2.5, 0.5, 2.5),
-    // rows(1, 2, 1, 3),
-
-    // rows(0.5, 6.5, 0.5, 6.5),
-    // rows(1, 6, 1, 6),
-    // rows(0.5, 6.5, 0.5, 6.5),
-    // rows(1, 6, 1, 6),
-    // rows(0.5, 6.5, 0.5, 6.5),
-    // rows(1, 6, 1, 6),
-    // rows(0.5, 6.5, 0.5, 6.5),
-    // rows(1, 6, 1, 6),
-    // rows(0.5, 6.5, 0.5, 6.5),
-    // rows(1, 6, 1, 6),
-    // rows(0.5, 6.5, 0.5, 6.5),
-    // rows(1, 6, 1, 6),
-    // /*
+    /*
     // 第一层
     [
         // 每一个元素
@@ -93,18 +90,49 @@ export const config = {
 };
 
 /**
+ * 使用的素材图片的数量
+ */
+const imageSize = 6;
 
-./img/
+const _images = [
+    "fruits/包子.png",
+    "fruits/南瓜.png",
+    "fruits/杨桃.png",
+    "fruits/火龙果.png",
+    "fruits/石榴.png",
+    "fruits/竹笋.png",
+    "fruits/茄子.png",
+    "fruits/蒜头.png",
+    "fruits/西瓜.png",
+    "fruits/豌豆.png",
+    "fruits/车厘子.png",
+    "fruits/面包.png",
+    "fruits/鲜鱼.png",
+    "fruits/龙虾.png",
+];
+
+/** 每次都随机使用不同的图片 */
+export function updateImages() {
+    let newImages = [];
+    let imgs = _images.slice(0);
+    for (var i = 0; i < imageSize; i++) {
+        let index = ~~(Math.random() * imgs.length);
+        newImages.push(...imgs.splice(index, 1));
+    }
+    images = newImages;
+}
+/**
 
  */
-export const images = [
-    "16gl-1.png",
-    "16gl-2.png",
-    "16gl-3.png",
-    "16gl-4.png",
-    "16gl-5.png",
-    "16gl-6.png",
-    "16gl-7.png",
+export let images = [
+    ..._images.slice(0, imageSize),
+    // "16gl-1.png",
+    // "16gl-2.png",
+    // "16gl-3.png",
+    // "16gl-4.png",
+    // "16gl-5.png",
+    // "16gl-6.png",
+    // "16gl-7.png",
     // "16gl-8.png",
     // "16gl-9.png",
 ];
