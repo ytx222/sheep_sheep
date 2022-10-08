@@ -7,6 +7,8 @@ import {
     clickCard,
     cardToCandidate,
     gameStatus,
+    randomCardCount,
+    updateRandomCardCount,
 } from "./game.js";
 
 /**
@@ -94,6 +96,7 @@ window.addEventListener("DOMContentLoaded", function () {
         createCards();
         randomCard();
         cardToMap();
+        updateRandomCardCount(0)
 
         // 设置样式
         document.body.style = style;

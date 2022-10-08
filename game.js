@@ -145,9 +145,12 @@ export function createCards() {
     console.warn("cards", cards);
 }
 
+export let randomCardCount = 0;
+export const updateRandomCardCount = v => void (randomCardCount = v);
 export function randomCard() {
     cards.sort((e) => (Math.random() > 0.5 ? 1 : -1));
     console.warn("randomCard", cards);
+    randomCardCount++;
 
     // 遍历每一层
     // currentMap.forEach((layer, index) => {
@@ -384,7 +387,7 @@ function checkCandidate() {
             console.log(cards[0]);
             // 消除后,检查是否游戏完成
             if (cards.length === 0 && candidates.length === 0) {
-                alert("游戏胜利");
+                alert("游戏胜利"+(randomCardCount?'!':''));
                 gameStatus = 9;
             }
         }

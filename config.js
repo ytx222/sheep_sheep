@@ -5,6 +5,7 @@ import {
     rectangleLayer,
     horizontalLine,
 } from "./map/util.js";
+import level1 from "./map/level1.js";
 
 export const _config = {
     /** 候选区大小  */
@@ -32,6 +33,7 @@ export const _config = {
  * @type {MapLayer}
  */
 export const map = [
+    // ...level1
     ...mergeLayer(
         day2022_10_8_littleSquare(2.5, 0.5),
         day2022_10_8_littleSquare(2.5, 5.5),
