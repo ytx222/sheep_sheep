@@ -112,8 +112,8 @@ export let cards = [];
  */
 export let currentMap = [];
 
-export function createCards () {
-    updateImages()
+export function createCards() {
+    updateImages();
     // 先重置cards,candidates
     if (cards.length) {
         cards.forEach((e) => destroyCard(e, true));
@@ -124,7 +124,10 @@ export function createCards () {
 
     currentMap = JSON.parse(JSON.stringify(config.map));
     const count = currentMap.reduce((prev, item) => prev + item.length, 0);
-    if (count % 3 !== 0) return alert("该地图似乎有错误!");
+    if (count % 3 !== 0) {
+        // return alert("该地图似乎有错误!");
+        console.error("%c该地图似乎有错误!",'font-size:40px;');
+    }
     //
     const len = count / 3;
     console.warn({ count, len });
@@ -295,8 +298,10 @@ export function clickCard(id) {
     if (!item) return;
     // 如果元素被覆盖,则忽略
     if (item.covered) return;
-    // 是正常状态,更改为候选区
+    // 候选区是满了
+    if (checkCandidateFull()) return;
     if (item.status === 1) {
+        // 是正常状态,更改为候选区
         item.status = 2;
         const newEl = item.el.cloneNode(true);
         // console.log(newEl);
@@ -317,6 +322,7 @@ export function clickCard(id) {
          */
         item.el.style.left = `${l}rem`;
         item.el.style.top = `calc(${t}rem + ${2 + 10 + 10 + 10}px)`;
+        item.el.classList.add("move");
 
         candidates.push(item);
         updateCoverState(item);
@@ -351,8 +357,8 @@ export function cardToCandidate(id) {
 /**
  * 检查是否有可以消除的卡片
  */
-function checkCandidate () {
-    console.log('checkCandidate');
+function checkCandidate() {
+    console.log("checkCandidate");
     // 因为type是从0开始的数字,所以正好用数组
     const map = Array(images.length)
         .fill(0)
@@ -360,12 +366,12 @@ function checkCandidate () {
     // 遍历的过程中可能会删除元素,所以直接遍历拷贝后的数组得了
     [...candidates].forEach((item, index) => {
         // 不是正在候选区的状态(正在移动到候选区),直接退出,不处理这个
-        if(item.status !== 3) return
+        if (item.status !== 3) return;
         /** @type{Card[]}  */
         const curType = map[item.type];
         curType.push(item);
         // console.log(map, curType);
-         // 检查3消
+        // 检查3消
         if (curType.length >= 3) {
             // 消除逻辑
             curType.forEach((card) => {
@@ -374,25 +380,34 @@ function checkCandidate () {
                 const index = candidates.findIndex((e) => e.id == card.id);
                 candidates.splice(index, 1);
             });
-            console.warn('消除完成',cards.length, candidates.length );
+            console.warn("消除完成", cards.length, candidates.length);
             console.log(cards[0]);
             // 消除后,检查是否游戏完成
             if (cards.length === 0 && candidates.length === 0) {
-                alert("游戏成功");
+                alert("游戏胜利");
                 gameStatus = 9;
             }
         }
     });
+    /** 候选区满了 && 所有卡片的状态都是移动完成(可消除的) */
+    if (checkCandidateFull() && candidates.every((e) => e.status === 3)) {
+        alert("游戏结束");
+        gameStatus = 2;
+    }
+}
 
-
-    // 检查长度限制,
+/**
+ * 检查候选区是否满
+ * @returns
+ */
+function checkCandidateFull() {
     if (
         //有长度限制
         !config.candidateInfinite &&
         // 长度限制超出
         candidates.length >= config.candidateSize
     ) {
-        alert("游戏结束");
-        gameStatus = 2;
+        return true;
     }
+    return false;
 }

@@ -1,3 +1,4 @@
+/** 确保你的项目中有tsconfig */
 import { _config } from "./config";
 import { Card } from "./game";
 declare global {

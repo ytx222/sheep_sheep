@@ -33,6 +33,8 @@ body {
 }
 .game-map-container {
     height: calc(var(--height) * var(--mapHeight));
+    position: relative;
+    z-index: 2;
 }
 .game-map {
     /* width: 100%; */
@@ -49,19 +51,36 @@ body {
     position: absolute;
     overflow: hidden;
 }
-.item.covered {
-    /* background: #999; */
-}
-.item.covered::after{
+.item::after {
     display: block;
-    content: '';
+    content: "";
     width: 100%;
     height: 100%;
     top: 0;
     left: 0;
     z-index: 99;
     position: absolute;
-    background: rgba(0,0,0,0.3);
+    background: rgba(0, 0, 0, 0);
+    transition: background var(--ms);
+    pointer-events: none;
+}
+/* 卡片被覆盖的状态*/
+.item.covered {
+    /* background: #999; */
+}
+.item.covered::after {
+    display: block;
+    content: "";
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 99;
+    position: absolute;
+    background: rgba(0, 0, 0, 0.3);
+}
+.item.move {
+    z-index: 999 !important;
 }
 
 .item .item-img {

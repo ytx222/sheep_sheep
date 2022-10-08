@@ -1,8 +1,16 @@
+import {
+    day2022_10_8_rotate,
+    day2022_10_8_littleSquare,
+    mergeLayer,
+    rectangleLayer,
+    horizontalLine,
+} from "./map/util.js";
+
 export const _config = {
     /** 候选区大小  */
     candidateSize: 7,
     /* 候选区无穷大 */
-    candidateInfinite: true,
+    candidateInfinite: false,
     /**
      * 卡片大小 vw/vmin
      * 12/14vw
@@ -20,64 +28,59 @@ export const _config = {
     },
 };
 
-function rectangleLayer(top, bottom, left, right) {
-    let arr = [];
-    for (var y = top; y < bottom; y++) {
-        for (var x = left; x < right; x++) {
-            arr.push({ x, y });
-        }
-    }
-    return arr;
-}
-
 /**
  * @type {MapLayer}
  */
 export const map = [
-    rectangleLayer(0.5, 8.5, 0.5, 6.5),
-    rectangleLayer(0.5, 8.5, 0.5, 6.5),
-    rectangleLayer(1, 8, 1, 6),
-    rectangleLayer(1, 8, 1, 6),
-    rectangleLayer(0.5, 8.5, 0.5, 6.5),
-    rectangleLayer(1, 8, 1, 6),
-    rectangleLayer(0.5, 8.5, 0.5, 6.5),
-    rectangleLayer(1, 8, 1, 6),
-    rectangleLayer(0.5, 8.5, 0.5, 6.5),
-    rectangleLayer(1, 8, 1, 6),
-    rectangleLayer(0.5, 8.5, 0.5, 6.5),
-    rectangleLayer(1, 8, 1, 6),
+    ...mergeLayer(
+        day2022_10_8_littleSquare(2.5, 0.5),
+        day2022_10_8_littleSquare(2.5, 5.5),
+        day2022_10_8_littleSquare(0.5, 3),
+        day2022_10_8_littleSquare(4.5, 3.5)
+    ),
+    ...mergeLayer(
+        day2022_10_8_littleSquare(0.5, 2.5, 3),
+        day2022_10_8_littleSquare(3.5, 2.5, 3)
+    ),
+    ...day2022_10_8_rotate(0.5, 7.5, 0.5, 6.5),
 
+    rectangleLayer(0.5, 7.5, 0.5, 6.5),
+    rectangleLayer(0.5, 7.5, 0.5, 6.5),
+    rectangleLayer(1, 7, 1, 6),
+    rectangleLayer(1, 7, 1, 6),
+    rectangleLayer(0.5, 7.5, 0.5, 6.5),
+    rectangleLayer(1, 7, 1, 6),
+    rectangleLayer(0.5, 7.5, 0.5, 6.5),
+    rectangleLayer(1, 7, 1, 6),
+    ...horizontalLine(7.8, 0.5, 0.1, 12),
+    ...horizontalLine(7.8, 5.5, -0.1, 12),
+
+    // rectangleLayer(0.5, 6.5, 0.5, 6.5),
+
+    // rectangleLayer(0.5, 7, 0.5, 6.5),
+
+    // [
+    //     { x: 2.3, y: 1 },
+    //     { x: 1, y: 1 },
+    // ],
+    // rectangleLayer(0.5, 8.5, 0.5, 6.5),
+    // rectangleLayer(1, 8, 1, 6),
+    // rectangleLayer(1, 8, 1, 6),
+    // // 简单的部分
+    // rectangleLayer(0.5, 8.5, 0.5, 6.5),
+    // rectangleLayer(0.5, 8.5, 0.5, 6.5),
+    // rectangleLayer(1, 8, 1, 6),
+    // rectangleLayer(1, 8, 1, 6),
+    // rectangleLayer(0.5, 8.5, 0.5, 6.5),
+    // rectangleLayer(1, 8, 1, 6),
+    // rectangleLayer(0.5, 8.5, 0.5, 6.5),
+    // rectangleLayer(1, 8, 1, 6),
+    // rectangleLayer(0.5, 8.5, 0.5, 6.5),
+    // rectangleLayer(1, 8, 1, 6),
+    // rectangleLayer(0.5, 8.5, 0.5, 6.5),
+    // rectangleLayer(1, 8, 1, 6),
     /*
-    // 第一层
-    [
-        // 每一个元素
-        { x: 1, y: 1.5 },
-        { x: 3, y: 1.5 },
-        { x: 5, y: 1.5 },
 
-        { x: 1, y: 3.5 },
-        { x: 3, y: 3.5 },
-        { x: 5, y: 3.5 },
-
-        { x: 1, y: 5.4 },
-        { x: 3, y: 5.4 },
-        { x: 5, y: 5.4 },
-    ],
-    // 第二层
-    [
-        // 每一个元素
-        { x: 1, y: 2 },
-        { x: 3, y: 2 },
-        { x: 5, y: 2 },
-
-        { x: 1, y: 4 },
-        { x: 3, y: 4 },
-        { x: 5, y: 4 },
-
-        { x: 1, y: 5.5 },
-        { x: 3, y: 5.5 },
-        { x: 5, y: 5.5 },
-    ],
     // */
 ];
 
@@ -92,7 +95,7 @@ export const config = {
 /**
  * 使用的素材图片的数量
  */
-const imageSize = 6;
+const imageSize = 8;
 
 const _images = [
     "fruits/包子.png",
