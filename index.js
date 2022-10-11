@@ -64,7 +64,7 @@ window.addEventListener("DOMContentLoaded", function () {
                 return;
             }
             // console.warn('transitionend',e);
-            // 一个元素可能会触发多次,所以只检测 top变化的事件
+            // 一个元素可能会触发多次,所以只检测top变化的事件
             if (e.propertyName !== "top") return;
             let el = e.path[0];
 
@@ -101,6 +101,9 @@ window.addEventListener("DOMContentLoaded", function () {
         // 设置样式
         document.body.style = style;
     };
+    document.querySelector(".setting").onclick = function () {
+        console.log("点击设置");
+    };
 });
 
 window.addEventListener("resize", updateRem);
@@ -108,8 +111,7 @@ window.addEventListener("resize", updateRem);
 function updateRem() {
     // rem 大小为屏幕宽度是1/20
     // 带间距定制版
-    const w = document.documentElement.clientWidth;
-    const h = document.documentElement.clientHeight;
+    const { clientWidth: w, clientHeight: h } = document.documentElement;
     const wRem = (w - 32 - 30) / (config.mapSize.width * config.itemSize.width);
     // main 20  btn 42 start 54 剩余 32+ 32  间距 50
     const hRem =

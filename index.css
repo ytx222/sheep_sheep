@@ -139,9 +139,16 @@ body {
     margin-right: 0;
 }
 
+.game-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
 .about {
     font-size: 14px;
-    margin-top: 10px;
+
     line-height: 16px;
     color: #666;
     text-align: center;
@@ -150,8 +157,12 @@ body {
     text-decoration: none;
     color: #4e6ef2;
 }
-.about a svg {
+.setting {
+    cursor: pointer;
+}
+svg {
     fill: #666;
+    user-select: none;
 }
 
 /* 专门的动画过渡*/
