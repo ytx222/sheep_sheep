@@ -11,7 +11,7 @@ export const _config = {
     /** 候选区大小  */
     candidateSize: 7,
     /* 候选区无穷大 */
-    candidateInfinite: false,
+    candidateInfinite: true,
     /**
      * 卡片大小 vw/vmin
      * 12/14vw
@@ -27,7 +27,19 @@ export const _config = {
         width: 7,
         height: 9,
     },
+    /**
+     * 使用的素材图片的数量
+     */
+    imageSize: 8,
 };
+
+// 如果是在线上环境,则自动设置为true
+if (document.domain === "www.ytx222.com") {
+    _config.candidateInfinite = true;
+    // 同时提供作弊
+    window.updateCandidateInfinite = (v) =>
+        (_config.candidateInfinite = v ?? _config.candidateInfinite);
+}
 
 /**
  * @type {MapLayer}
@@ -94,12 +106,7 @@ export const config = {
     ..._config,
 };
 
-/**
- * 使用的素材图片的数量
- */
-const imageSize = 8;
-
-const _images = [
+export const allImages = [
     "fruits/包子.png",
     "fruits/南瓜.png",
     "fruits/杨桃.png",
@@ -119,8 +126,8 @@ const _images = [
 /** 每次都随机使用不同的图片 */
 export function updateImages() {
     let newImages = [];
-    let imgs = _images.slice(0);
-    for (var i = 0; i < imageSize; i++) {
+    let imgs = allImages.slice(0);
+    for (var i = 0; i < config.imageSize; i++) {
         let index = ~~(Math.random() * imgs.length);
         newImages.push(...imgs.splice(index, 1));
     }
@@ -130,7 +137,7 @@ export function updateImages() {
 
  */
 export let images = [
-    ..._images.slice(0, imageSize),
+    ...allImages.slice(0, config.imageSize),
     // "16gl-1.png",
     // "16gl-2.png",
     // "16gl-3.png",

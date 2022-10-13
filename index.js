@@ -1,4 +1,4 @@
-import { config } from "./config.js";
+import { allImages, config } from "./config.js";
 import {
     createCards,
     cardToMap,
@@ -20,6 +20,11 @@ export let gameMapEl = null;
  * @type {HTMLDivElement}
  */
 export let gameCandidateEl = null;
+
+/**
+ * @type {HTMLDivElement}
+ */
+export let gameSettingContainerEl = null;
 
 let style;
 
@@ -43,6 +48,7 @@ function init() {
 window.addEventListener("DOMContentLoaded", function () {
     gameMapEl = document.querySelector(".game-map");
     gameCandidateEl = document.querySelector(".game-candidate");
+    gameSettingContainerEl = document.querySelector(".game-setting-container");
 
     gameMapEl.onclick = function (e) {
         if (gameStatus > 1) {
@@ -96,13 +102,21 @@ window.addEventListener("DOMContentLoaded", function () {
         createCards();
         randomCard();
         cardToMap();
-        updateRandomCardCount(0)
+        updateRandomCardCount(0);
 
         // 设置样式
         document.body.style = style;
     };
     document.querySelector(".setting").onclick = function () {
         console.log("点击设置");
+        gameSettingContainerEl.classList.add("on");
+    };
+    gameSettingContainerEl.onclick = function () {
+        gameSettingContainerEl.classList.remove("on");
+    };
+    document.querySelector(".game-setting").onclick = function (e) {
+        // 阻止事件冒泡
+        e.stopPropagation();
     };
 });
 
@@ -120,7 +134,20 @@ function updateRem() {
 
     let minRem = Math.min(hRem, wRem).toFixed(2);
 
-    console.warn({ w, h, wRem, hRem, minRem });
+    console.log("resize", { w, h, wRem, hRem, minRem });
 
     document.documentElement.style.fontSize = `${minRem}px`;
+}
+
+/**
+ * 预加载图片
+ */
+function initImages() {
+    const els = allImages.map((e) => {
+        const link = document.createElement("link");
+        link.rel = "prefetch";
+        link.href = "./img/" + e;
+        return link;
+    });
+    document.head.append(...els);
 }

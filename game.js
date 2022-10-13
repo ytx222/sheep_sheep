@@ -93,13 +93,9 @@ export class Card {
 
         this.el.style.zIndex = layer;
 
-        // this.
-
         this.el.style.left = this.x * config.itemSize.width + "rem";
         this.el.style.top = this.y * config.itemSize.height + "rem";
         // 由于位置已经发生变化,清空覆盖链
-
-        console.log("toMap");
     }
 }
 
@@ -126,11 +122,10 @@ export function createCards() {
     const count = currentMap.reduce((prev, item) => prev + item.length, 0);
     if (count % 3 !== 0) {
         // return alert("该地图似乎有错误!");
-        console.error("%c该地图似乎有错误!",'font-size:40px;');
+        console.error("%c该地图似乎有错误!", "font-size:40px;");
     }
     //
     const len = count / 3;
-    console.warn({ count, len });
     for (var i = 0; i < len; i++) {
         cards.push(
             //
@@ -142,28 +137,22 @@ export function createCards() {
 
     gameStatus = 1;
 
-    console.warn("cards", cards);
+    console.log("createCards", [cards]);
 }
 
 export let randomCardCount = 0;
-export const updateRandomCardCount = v => void (randomCardCount = v);
+export const updateRandomCardCount = (v) => void (randomCardCount = v);
 export function randomCard() {
-    cards.sort((e) => (Math.random() > 0.5 ? 1 : -1));
-    console.warn("randomCard", cards);
+    cards.sort(() => (Math.random() > 0.5 ? 1 : -1));
+    console.log("randomCard", [cards]);
     randomCardCount++;
-
-    // 遍历每一层
-    // currentMap.forEach((layer, index) => {
-    //     //遍历每一个
-    //     layer.forEach((item) => {});
-    // });
 }
 
 /**
  * 将卡牌添加到地图中
  */
 export function cardToMap() {
-    console.warn("cardToMap", currentMap);
+    console.log("cardToMap", [currentMap]);
     let i = 0;
     // 遍历每一层
     currentMap.forEach((layer, index) => {
@@ -211,24 +200,6 @@ function initCoverState() {
             );
         }
     });
-    // for (let i = currentMap.length - 1; i > 0; i--) {
-    //
-    //
-    //     const layer = currentMap[i];
-    //     const nextLayer = currentMap[i - 1];
-    //     const nextLayerCard = nextLayer.map((e) => e.cardItem);
-    //     for (var j = 0; j < layer.length; j++) {
-    //         const item = layer[j];
-    //         const card = item.cardItem;
-    //         // 遍历下一层,查找自身遮盖了下一层的那些元素,添加到 covers
-    //         card.covers = nextLayerCard.filter((i) => {
-    //             return i.isCover(item);
-    //             // 判断是否遮盖了
-    //         });
-    //         console.warn(" card.covers =", card.covers);
-    //     }
-    // }
-
     cards.forEach((e) => {
         if (e.covers.length) {
             e.covers.forEach((item) => {
@@ -266,9 +237,7 @@ function destroyCard(card, destroyCandidate = false) {
  * @param {Card} card
  */
 function updateCoverState(card) {
-    // console.warn("updateCoverState", card);
     card.covers.forEach((item) => {
-        // console.warn(item);
         // 如果这个卡已经被覆盖了
         if (item.covered) {
             // 检查是否可以取消覆盖
@@ -307,18 +276,37 @@ export function clickCard(id) {
         // 是正常状态,更改为候选区
         item.status = 2;
         const newEl = item.el.cloneNode(true);
-        // console.log(newEl);
-        item.candidateEl = newEl;
-        gameCandidateEl.appendChild(newEl);
         // 在候选区渲染,并清除不需要的样式
         newEl.style = "visibility: hidden;";
+        item.candidateEl = newEl;
+        // 查找应该插入的位置,应该插入到同类型的最后一个之后,
+        // 默认值(初始值)是最后一个元素之后
+        let lastIndex = candidates.length;
+        for (var i = candidates.length; i > 0; i--) {
+            if (candidates[i - 1].type === item.type) {
+                lastIndex = i;
+                console.log("找到", lastIndex);
+                break;
+            }
+        }
+
+        if (lastIndex === candidates.length) {
+            gameCandidateEl.appendChild(newEl);
+            candidates.push(item);
+        } else {
+            // 上一个同类型元素
+            let lastItem = candidates[lastIndex - 1];
+            // 插入到它的后面
+            lastItem.candidateEl.insertAdjacentElement("afterend", newEl);
+            candidates.splice(lastIndex , 0, item);
+        }
+
 
         // 移动的动画
         const l =
-            (candidates.length % config.candidateSize) * config.itemSize.width;
+            ((lastIndex ) % config.candidateSize) * config.itemSize.width;
         const t =
-            (config.mapSize.height +
-                ~~(candidates.length / config.candidateSize)) *
+            (config.mapSize.height + ~~(lastIndex / config.candidateSize)) *
             config.itemSize.height;
         /**
          *     transform: translate(calc(200% - 10px), 0);
@@ -327,7 +315,6 @@ export function clickCard(id) {
         item.el.style.top = `calc(${t}rem + ${2 + 10 + 10 + 10}px)`;
         item.el.classList.add("move");
 
-        candidates.push(item);
         updateCoverState(item);
     }
 }
@@ -342,7 +329,6 @@ export function cardToCandidate(id) {
     if (index === -1) return;
     const item = cards[index];
     if (item.status !== 2) return;
-    console.log("cardToCandidate");
     item.status = 3;
     //FIXME: 将这一步移动到上一步进行
     // 删除元素,取消和map的连接,
@@ -361,7 +347,6 @@ export function cardToCandidate(id) {
  * 检查是否有可以消除的卡片
  */
 function checkCandidate() {
-    console.log("checkCandidate");
     // 因为type是从0开始的数字,所以正好用数组
     const map = Array(images.length)
         .fill(0)
@@ -387,7 +372,7 @@ function checkCandidate() {
             console.log(cards[0]);
             // 消除后,检查是否游戏完成
             if (cards.length === 0 && candidates.length === 0) {
-                alert("游戏胜利"+(randomCardCount?'!':''));
+                alert("游戏胜利" + (randomCardCount ? "!" : ""));
                 gameStatus = 9;
             }
         }

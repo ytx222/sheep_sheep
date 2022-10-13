@@ -1,13 +1,16 @@
+// 将多层合并为同一层
 export function mergeLayer(...items) {
-    console.warn(items);
+    // console.warn('mergeLayer',items);
     const maxLayer = Math.max(...items.map((e) => e.length));
-    return [
-        //
-        ...items[0],
-        ...items[1],
-        ...(items[2] || []),
-        ...(items[3] || []),
-    ];
+    const arr = [];
+    for (var i = 0; i < maxLayer; i++) {
+        arr[i] = items.reduce((v, cur) => {
+            if (cur[i]) v.push(...cur[i]);
+            return v;
+        }, []);
+    }
+    // console.log(arr);
+    return arr;
 }
 
 /** 根据指定大小,填充一个满的矩形 */
@@ -32,7 +35,6 @@ export function horizontalLine(y, start, direction, length) {
     for (var i = 0; i < length; i++) {
         arr[i] = [{ y, x: start + direction * i }];
     }
-	console.warn(arr);
     return arr;
 }
 
