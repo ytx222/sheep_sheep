@@ -107,20 +107,20 @@ export const config = {
 };
 
 export const allImages = [
-    "fruits/包子.png",
-    "fruits/南瓜.png",
-    "fruits/杨桃.png",
-    "fruits/火龙果.png",
-    "fruits/石榴.png",
-    "fruits/竹笋.png",
-    "fruits/茄子.png",
-    "fruits/蒜头.png",
-    "fruits/西瓜.png",
-    "fruits/豌豆.png",
-    "fruits/车厘子.png",
-    "fruits/面包.png",
-    "fruits/鲜鱼.png",
-    "fruits/龙虾.png",
+    "./img/fruits/包子.png",
+    "./img/fruits/南瓜.png",
+    "./img/fruits/杨桃.png",
+    "./img/fruits/火龙果.png",
+    "./img/fruits/石榴.png",
+    "./img/fruits/竹笋.png",
+    "./img/fruits/茄子.png",
+    "./img/fruits/蒜头.png",
+    "./img/fruits/西瓜.png",
+    "./img/fruits/豌豆.png",
+    "./img/fruits/车厘子.png",
+    "./img/fruits/面包.png",
+    "./img/fruits/鲜鱼.png",
+    "./img/fruits/龙虾.png",
 ];
 
 /** 每次都随机使用不同的图片 */

@@ -80,8 +80,7 @@ export class Card {
 
             const inner = document.createElement("div");
             inner.className = "item-img";
-            inner.style.backgroundImage = `url("./img/");`;
-            inner.style = `background-image: url(./img/${images[this.type]});`;
+            inner.style = `background-image: url(${images[this.type]});`;
             // console.warn(inner);
             el.appendChild(inner);
             gameMapEl.appendChild(el);
