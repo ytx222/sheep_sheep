@@ -145,7 +145,7 @@ function initImages() {
 	const els = allImages.map(e => {
 		const link = document.createElement('link');
 		link.rel = 'prefetch';
-		link.href = './img/' + e;
+		link.href =  e;
 		return link;
 	});
 	document.head.append(...els);
