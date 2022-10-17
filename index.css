@@ -25,7 +25,6 @@ body {
 .game-main {
     width: calc(var(--width) * var(--mapWidth) + 22px);
     margin: 10px auto;
-
 }
 .container {
     width: calc(var(--width) * var(--mapWidth));
@@ -181,33 +180,54 @@ svg {
     z-index: 1000;
     justify-content: center;
     align-items: center;
+
 }
 .game-setting-container.on {
     display: flex;
 }
 .game-setting {
     height: 80vh;
-    background: #FFF;
+    background: #fff;
     border-radius: 6px;
     color: #444;
+    overflow-y: auto;
 }
 
-h1{
+h1 {
     font-size: 1.5rem;
 }
-h3{
+h3 {
     font-size: 1rem;
 }
-label{
+label {
     font-size: 14px;
     user-select: none;
 }
-label+input[type=text]{
+label + input[type="text"] {
     display: block;
     flex: 0 0 100%;
 }
 
-.game-setting .row{
+.statistics {
+}
+.statistics table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.statistics table td,
+.statistics table th {
+    border: 1px solid #ccc;
+    padding: 3px 6px;
+    text-align: center;
+    font-size: 16px;
+}
+.statistics img {
+    max-width:calc( var(--width) * 0.8);
+    /* height: var(--height); */
+}
+
+.game-setting .row {
     /* display: flex;
     align-items: center;
     flex-wrap: wrap; */

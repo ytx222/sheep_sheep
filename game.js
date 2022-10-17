@@ -1,5 +1,6 @@
 import { config, images, updateImages } from "./config.js";
 import { gameCandidateEl, gameMapEl } from "./index.js";
+import { initCards, randomCardCount, updateRandomCardCount } from "./statistics.js";
 
 /**
  * 0: 未开始
@@ -136,15 +137,19 @@ export function createCards() {
 
     gameStatus = 1;
 
-    console.log("createCards", [cards]);
+    // initCards的值设置为cards的浅拷贝
+    initCards.splice(0, initCards.length, ...cards);
+
+    console.log({
+        cards,
+        initCards
+    });
 }
 
-export let randomCardCount = 0;
-export const updateRandomCardCount = (v) => void (randomCardCount = v);
 export function randomCard() {
     cards.sort(() => (Math.random() > 0.5 ? 1 : -1));
     console.log("randomCard", [cards]);
-    randomCardCount++;
+    updateRandomCardCount(randomCardCount + 1);
 }
 
 /**
@@ -224,7 +229,7 @@ function destroyCard(card, destroyCandidate = false) {
     card.el = null;
     // 解除候选区绑定
     if (destroyCandidate) {
-        console.warn("card?.candidateEl", card, card?.candidateEl);
+        // console.warn("card?.candidateEl", card, card?.candidateEl);
         card?.candidateEl?.parentElement.removeChild(card.candidateEl);
 
         const index = candidates.findIndex((e) => e.id == card.id);
@@ -297,13 +302,11 @@ export function clickCard(id) {
             let lastItem = candidates[lastIndex - 1];
             // 插入到它的后面
             lastItem.candidateEl.insertAdjacentElement("afterend", newEl);
-            candidates.splice(lastIndex , 0, item);
+            candidates.splice(lastIndex, 0, item);
         }
 
-
         // 移动的动画
-        const l =
-            ((lastIndex ) % config.candidateSize) * config.itemSize.width;
+        const l = (lastIndex % config.candidateSize) * config.itemSize.width;
         const t =
             (config.mapSize.height + ~~(lastIndex / config.candidateSize)) *
             config.itemSize.height;
@@ -366,6 +369,8 @@ function checkCandidate() {
                 // 这样写,删除3个的时候,需要删除数组3次,可以优化为filter
                 const index = candidates.findIndex((e) => e.id == card.id);
                 candidates.splice(index, 1);
+                // 更新状态
+                card.status = 9
             });
             console.warn("消除完成", cards.length, candidates.length);
             console.log(cards[0]);

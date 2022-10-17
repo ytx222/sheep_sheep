@@ -11,7 +11,7 @@ export const _config = {
     /** 候选区大小  */
     candidateSize: 7,
     /* 候选区无穷大 */
-    candidateInfinite: true,
+    candidateInfinite: false,
     /**
      * 卡片大小 vw/vmin
      * 12/14vw
@@ -98,9 +98,7 @@ export const map = [
     // */
 ];
 
-/**
- * @type {config}
- */
+
 export const config = {
     map,
     ..._config,

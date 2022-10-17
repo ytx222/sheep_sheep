@@ -31,4 +31,6 @@ declare global {
     declare type config = typeof _config & {
         map: MapLayer[];
     };
+
+    declare Card;
 }
