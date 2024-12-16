@@ -7,6 +7,7 @@ import { initCards, randomCardCount, updateRandomCardCount } from "./statistics.
  * 1: 游戏中
  * 8: 已失败
  * 9: 已成功
+ * 12
  */
 export let gameStatus = 0;
 
