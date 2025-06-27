@@ -50,16 +50,24 @@ window.addEventListener("DOMContentLoaded", function () {
     gameSettingContainerEl = document.querySelector(".game-setting-container");
 
     gameMapEl.onclick = function (e) {
+        console.log(e);
         if (gameStatus > 1) {
             return;
         }
-        let path = e.path;
-        if (path[1]?.classList?.contains("item")) {
-            const el = path[1];
-            // console.log("点击", el);
-            const id = el.dataset.id;
-            clickCard(id);
+        console.log(e.srcElement);
+        for (const item of ElementParentIterator(e.srcElement)) {
+            if (item.classList.contains("item")){
+                const id = item.dataset.id;
+                clickCard(id);
+            }
         }
+        // let path = e.path;
+        // if (path[1]?.classList?.contains("item")) {
+        //     const el = path[1];
+        //     // console.log("点击", el);
+        //     const id = el.dataset.id;
+        //     clickCard(id);
+        // }
     };
 
     gameMapEl.addEventListener(
@@ -71,12 +79,18 @@ window.addEventListener("DOMContentLoaded", function () {
             // console.warn('transitionend',e);
             // 一个元素可能会触发多次,所以只检测top变化的事件
             if (e.propertyName !== "top") return;
-            let el = e.path[0];
-
-            if (el?.classList?.contains("item")) {
-                const id = el.dataset.id;
-                cardToCandidate(id);
+            for (const item of ElementParentIterator(e.target)) {
+                if (item.classList.contains("item")){
+                    const id = item.dataset.id;
+                    cardToCandidate(id);
+                }
             }
+            // let el = e.path[0];
+
+            // if (el?.classList?.contains("item")) {
+            //     const id = el.dataset.id;
+            //     cardToCandidate(id);
+            // }
         },
         true
     );
@@ -184,4 +198,19 @@ function closeSetting() {
         !!document.querySelector("#candidateInfinite").checked;
     config.candidateInfinite = candidateInfinite;
     console.warn(config);
+}
+
+
+/**
+ * 迭代元素的所有父元素
+ * @param {Element} el
+ * @returns {Iterable<Element>} 父元素
+ */
+function* ElementParentIterator(el) {
+    let curEl = el;
+    while (curEl) {
+        yield curEl;
+        curEl = curEl?.parentElement;
+    }
+    return null;
 }
